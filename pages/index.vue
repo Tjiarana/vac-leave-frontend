@@ -9,18 +9,16 @@ interface ResponseDTO<T> {
 const { setCookie } = useCookies()
 
 const login = async (employeeId: string, password: string): Promise<void> => {
-  if (employeeId && password) {
-    try {
-      const res = await $fetch.raw<ResponseDTO<any>>('http://localhost:8080/auth/login', {
-        method: 'POST',
-        body: { employeeId: employeeId, password: password },
-        headers: { 'Content-Type': 'application/json' },
-      })
-      setCookie('token', res._data?.data.token)
-      setCookie('token_expiration', res._data?.data.token_expiration)
-    } catch (err: any) {
-      console.log(err);
-    }
+  try {
+    const res = await $fetch.raw<ResponseDTO<any>>('http://localhost:8080/auth/login', {
+      method: 'POST',
+      body: { employeeId: employeeId, password: password },
+      headers: { 'Content-Type': 'application/json' },
+    })
+    setCookie('token', res._data?.data.token)
+    setCookie('token_expiration', res._data?.data.token_expiration)
+  } catch (err: any) {
+    console.log(err);
   }
 }
 </script>
