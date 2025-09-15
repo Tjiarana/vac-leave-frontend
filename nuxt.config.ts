@@ -62,5 +62,11 @@ export default defineNuxtConfig({
         },
       ]
     }
+  },
+  runtimeConfig: {
+    public: {
+      url: process.env.API_URL || "http://localhost:8080/api",
+      authurl: process.env.AUTH_API_URL || "http://localhost:8080/auth"
+    }
   }
 })
