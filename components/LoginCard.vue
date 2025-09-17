@@ -61,4 +61,4 @@ const clearLoginErrCode = (): void => {
 </template>
 
 
-<style></style>
+<style scoped></style>

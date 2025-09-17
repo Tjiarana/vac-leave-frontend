@@ -10,4 +10,4 @@ definePageMeta({
 </template>
 
 
-<style></style>
+<style scoped></style>

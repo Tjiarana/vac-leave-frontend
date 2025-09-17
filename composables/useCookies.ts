@@ -1,12 +1,7 @@
 export const useCookies = () => {
   const setCookie = (key: string, value: any): void => {
-    const cookie =  useCookie<any>(key)
+    const cookie = useCookie<any>(key)
     cookie.value = value
-  }
-
-  const getCookie = (key: string): any => {
-    const cookie =  useCookie<any>(key)
-    return cookie.value
   }
 
   const clearCookie = (key: string): void => {
@@ -14,5 +9,5 @@ export const useCookies = () => {
     cookie.value = null
   }
 
-  return { setCookie, getCookie, clearCookie }
+  return { setCookie, clearCookie }
 }

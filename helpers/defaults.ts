@@ -9,5 +9,5 @@ export const defaults: DefaultsInstance = {
 		variant: "outlined",
 		density: "comfortable",
 		baseColor: "#E0E0E0"
-	},
+	}
 }
