@@ -3,7 +3,7 @@ import NavbarBtn from './NavbarBtn.vue';
 </script>
 
 <template>
-  <v-toolbar class="position-sticky top-0 px-4 py-1 bg-surface">
+  <v-toolbar class="position-sticky top-0 px-4 bg-surface">
     <v-row no-gutters align="center">
       <v-col class="d-flex justify-center ga-6">
         <navbar-btn :btn-name="'การลา'" :router-to="'/leave'"/>

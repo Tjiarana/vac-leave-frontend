@@ -42,7 +42,7 @@ const headers = ref<any[]>([
     </v-row>
     <v-row no-gutters class="w-100 flex-grow-1 px-16" :class="lgAndDown?'py-8':'py-16'">
       <v-col class="d-flex flex-column ga-6">
-        <h3 class="font-weight-regular text-secondary ps-4">รายชื่อพนักงาน</h3>
+        <!-- <h3 class="font-weight-regular text-secondary ps-4">รายชื่อพนักงาน</h3> -->
         <v-row no-gutters justify="center" align="center">
           <v-col class="d-flex flex-grow-1 fill-height">
             <EmployeesTable :table-headers="headers" :employees="employees"/>

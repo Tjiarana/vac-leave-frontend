@@ -26,27 +26,35 @@ const tableHeight = computed(() => {
 </script>
 
 <template>
-  <v-data-table :height="tableHeight" :headers="props.tableHeaders" :items="props.employees" item-value="id" fixed-header :density="lgAndDown?'comfortable':'default'" :hover="true" hide-default-footer
+  <v-data-table :height="tableHeight" :headers="props.tableHeaders" :items="props.employees" item-value="id"
+    fixed-header :density="lgAndDown ? 'comfortable' : 'default'" :hover="true" hide-default-footer
     class="border rounded overflow-hidden">
+    <template v-slot:top>
+      <v-toolbar flat color="surface border-b">
+        <v-toolbar-title class="text-secondary" text="รายชื่อพนักงาน" />
+        <v-btn variant="flat" color="primary" class="me-3 text-white" prepend-icon="mdi-account-plus" rounded="lg" text="เพิ่มพนักงาน" :ripple="false"
+          @click="" />
+      </v-toolbar>
+    </template>
     <template #item.actions="{ item }">
       <div class="d-flex justify-center align-center ga-2">
         <v-tooltip text="รายละเอียด">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown ? 'comfortable' : 'default'" icon>
               <v-icon>mdi-eye-outline</v-icon>
             </v-btn>
           </template>
         </v-tooltip>
         <v-tooltip text="แก้ไข">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown ? 'comfortable' : 'default'" icon>
               <v-icon>mdi-pencil-outline</v-icon>
             </v-btn>
           </template>
         </v-tooltip>
         <v-tooltip text="ลบ">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown ? 'comfortable' : 'default'" icon>
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
@@ -56,5 +64,4 @@ const tableHeight = computed(() => {
   </v-data-table>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

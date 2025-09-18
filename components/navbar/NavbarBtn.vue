@@ -14,7 +14,7 @@ const props = defineProps({
 
 <template>
   <nuxt-link :to="props.routerTo">
-    <v-btn :text="props.btnName" :ripple="false" variant="plain" class="text-primary" />
+    <v-btn size="small" :text="props.btnName" :ripple="false" variant="plain" class="text-primary" />
   </nuxt-link>
 </template>
 
