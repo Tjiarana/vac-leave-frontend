@@ -2,8 +2,7 @@
 import type { PropType } from 'vue';
 import { useDisplay } from 'vuetify';
 
-const { xs, sm, md, lg, lgAndDown, xl, width, name } = useDisplay()
-
+const { xs, sm, smAndDown, md, lg, lgAndDown, xl, xxl, width, name } = useDisplay()
 
 const props = defineProps({
   tableHeaders: {
@@ -17,29 +16,37 @@ const props = defineProps({
 })
 
 const tableHeight = computed(() => {
-  if (xs.value || sm.value) return 300
-  if (md.value) return 400
-  if (lg.value) return 235
-  if (xl.value) return 300
+  if (smAndDown.value) return 350
+  if (md.value) return 300
+  if (lg.value) return 250
+  if (xl.value) return 450
+  if (xxl.value) return 350
 })
 
 </script>
 
 <template>
-  <v-data-table :height="tableHeight" :headers="props.tableHeaders" items-per-page="5" :items="props.employees" item-value="id" fixed-header :density="lgAndDown?'comfortable':'default'" :hover="true"
+  <v-data-table :height="tableHeight" :headers="props.tableHeaders" :items="props.employees" item-value="id" fixed-header :density="lgAndDown?'comfortable':'default'" :hover="true" hide-default-footer
     class="border rounded overflow-hidden">
     <template #item.actions="{ item }">
-      <div class="d-flex justify-center ga-3">
+      <div class="d-flex justify-center align-center ga-2">
+        <v-tooltip text="รายละเอียด">
+          <template #activator="{ props }">
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
+              <v-icon>mdi-eye-outline</v-icon>
+            </v-btn>
+          </template>
+        </v-tooltip>
         <v-tooltip text="แก้ไข">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" variant="text" icon>
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
               <v-icon>mdi-pencil-outline</v-icon>
             </v-btn>
           </template>
         </v-tooltip>
         <v-tooltip text="ลบ">
           <template #activator="{ props }">
-            <v-btn v-bind="props" size="small" variant="text" icon>
+            <v-btn v-bind="props" size="small" variant="text" :density="lgAndDown?'comfortable':'default'" icon>
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
