@@ -31,9 +31,9 @@ const tableHeight = computed(() => {
     class="border rounded overflow-hidden">
     <template v-slot:top>
       <v-toolbar flat color="surface border-b">
-        <v-toolbar-title class="text-secondary" text="รายชื่อพนักงาน" />
-        <v-btn variant="flat" color="primary" class="me-3 text-white" prepend-icon="mdi-account-plus" rounded="lg" text="เพิ่มพนักงาน" :ripple="false"
-          @click="" />
+        <v-toolbar-title class="text-secondary font-weight-bold" text="รายชื่อพนักงาน" />
+        <v-btn variant="flat" color="primary" class="me-3 text-white" prepend-icon="mdi-account-plus" rounded="lg"
+          text="เพิ่มพนักงาน" :ripple="false" @click="" />
       </v-toolbar>
     </template>
     <template #item.actions="{ item }">
