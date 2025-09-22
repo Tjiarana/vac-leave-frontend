@@ -19,16 +19,20 @@ interface EmployeeDTO {
 
 const employees = ref<EmployeeDTO[]>([])
 
-onMounted(async () => {
+const fetchAllEmployee = async () => {
   const { data: employeesData } = await useApi().getAllEmployeeDTO()
   employees.value = employeesData
+}
+
+onMounted(async () => {
+  fetchAllEmployee()
 })
 
 const headers = ref<any[]>([
   { title: 'รหัสพนักงาน', align: 'start' as const, key: 'id' },
   { title: 'ชื่อ', align: 'start' as const, key: 'employeeName' },
   { title: 'ตำแหน่ง', align: 'start' as const, key: 'position' },
-  { title: 'ผู้จัดการ', align: 'center' as const, key: 'reportTo', value: (item: any) => item.reportTo?.name ?? '-' },
+  { title: 'ผู้จัดการ', align: 'center' as const, key: 'reportTo', value: (item: any) => item.reportTo?.employeeName ?? '-' },
   { title: 'การกระทำ', align: 'center' as const, key: 'actions', sortable: false }
 ])
 
@@ -43,7 +47,7 @@ const headers = ref<any[]>([
     </v-row>
     <v-row no-gutters justify="center" align="center" class="w-100 px-16" :class="lgAndDown ? 'py-8' : 'py-16'">
       <v-col class="d-flex fill-height flex-grow-1">
-        <EmployeesTable :table-headers="headers" :employees="employees" />
+        <EmployeesTable @refetch-all-employee="fetchAllEmployee" :table-headers="headers" :employees="employees" />
       </v-col>
     </v-row>
   </VContainer>
