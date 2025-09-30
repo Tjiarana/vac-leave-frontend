@@ -6,9 +6,9 @@ import "@mdi/font/css/materialdesignicons.css"
 import { LIGHT_THEME, lightTheme, darkTheme } from "@/helpers/themes"
 
 import { defaults } from "@/helpers/defaults"
+import { VCalendar } from "vuetify/labs/VCalendar"
 
 export default defineNuxtPlugin((nuxtApp ) => {
-    // Create a new Vuetify instance
     const vuetify = createVuetify({
         ssr: true,
         defaults,
@@ -18,14 +18,12 @@ export default defineNuxtPlugin((nuxtApp ) => {
                 lightTheme,
                 darkTheme,
             },
-            // add color variations
             variations: {
                 colors: ["primary", "secondary"],
                 lighten: 3,
                 darken: 3,
             }
         },
-        // Add the mdi iconset
         icons: {
             defaultSet: "mdi",
             aliases,
@@ -33,8 +31,10 @@ export default defineNuxtPlugin((nuxtApp ) => {
                 mdi,
             },
         },
+        components: {
+            VCalendar,
+        }
     })
 
-    // Inject it to nuxtApp
     nuxtApp.vueApp.use(vuetify)
 })

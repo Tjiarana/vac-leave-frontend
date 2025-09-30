@@ -49,16 +49,10 @@ const { data: positions } = await useApi().getAllPosition()
 const positionOptions: any[] = []
 
 for (const position of positions) {
-  positionOptions.push({ name: position.positionName, value: position.positionId})
+  positionOptions.push({ name: position.positionName, value: position.positionId })
 }
 
-const { data: managers } = await useApi().getAllManager()
-const managersOptions: any[] = []
-
-for (const manager of managers) {
-  managersOptions.push({ name: manager.managerName, value: manager.managerId})
-}
-managersOptions.push({ name: 'ไม่มี', value: null })
+const managersOptions = ref<any[]>([])
 
 const userForm = ref<userRequestModel>({
   employeeId: '',
@@ -88,6 +82,7 @@ const resetForm = () => {
     userPassword: '',
     roles: ['EMPLOYEE']
   }
+  managersOptions.value = []
 }
 
 const getEmployeeData = async (): Promise<void> => {
@@ -108,12 +103,28 @@ const getEmployeeData = async (): Promise<void> => {
   }
 }
 
+const getManagersData = async (): Promise<void> => {
+  if (userForm.value.roles.includes('MANAGER')) {
+    const { data: managersData } = await useApi().getOtherManager(userForm.value.employeeId)
+    for (const manager of managersData) {
+      managersOptions.value.push({ name: manager.managerName, value: manager.managerId })
+    }
+  } else {
+    const { data: managersData } = await useApi().getAllManager()
+    for (const manager of managersData) {
+      managersOptions.value.push({ name: manager.managerName, value: manager.managerId })
+    }
+  }
+  managersOptions.value.push({ name: 'ไม่มี', value: null })
+}
+
 watch(() => props.isModalOpen, (newVal) => {
   isModalOpen.value = newVal
 })
 
-const submitForm = () => {
-  useApi().insertUser(userForm.value);
+const submitForm = async () => {
+  if (props.modalAction == 'add') await useApi().insertUser(userForm.value)
+  if (props.modalAction == 'edit') await useApi().editUser(userForm.value)
   if (true) {
     onDialogModelUpdate(false)
     emit('refetchAllEmployee')
@@ -128,57 +139,67 @@ const onDialogModelUpdate = (val: boolean) => {
   }
 }
 
-watch(isModalOpen, (open) => {
+watch(isModalOpen, async (open) => {
   if (open) {
-    getEmployeeData()
+    await getEmployeeData()
+    await getManagersData()
   }
 })
 </script>
 
 <template>
-  <v-dialog v-model="isModalOpen" @update:model-value="onDialogModelUpdate" max-width="500" max-height="630" scrollable>
-    <v-card :subtitle="props.modalAction == 'add'?'กรอกข้อมูลพนักงานใหม่':props.modalAction == 'edit'?`แก้ไขข้อมูลพนักงานรหัส : ${props.employeeId}`:`รายละเอียดพนักงานรหัส : ${props.employeeId}`"
+  <v-dialog v-model="isModalOpen" @update:model-value="onDialogModelUpdate" max-width="500" max-height="600" scrollable>
+    <v-card
+      :subtitle="props.modalAction == 'add' ? 'กรอกข้อมูลพนักงานใหม่' : props.modalAction == 'edit' ? `แก้ไขข้อมูลพนักงานรหัส : ${props.employeeId}` : `รายละเอียดพนักงานรหัส : ${props.employeeId}`"
       :title="`${props.modalAction == 'add' ? 'เพิ่ม' : props.modalAction == 'edit' ? 'แก้ไข' : 'ข้อมูล'}พนักงาน`">
       <template #text>
         <v-row class="text-sub-text pt-4">
           <v-col v-if="props.modalAction == 'add'" cols="12">
-            <v-text-field base-color="sub-text" v-model="userForm.employeeId" label="รหัสพนักงาน"/>
+            <v-text-field base-color="sub-text" v-model="userForm.employeeId" label="รหัสพนักงาน" />
           </v-col>
 
           <v-col cols="12">
-            <v-text-field base-color="sub-text" v-model="userForm.employeeFirstname" label="ชื่อ" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-text-field base-color="sub-text" v-model="userForm.employeeFirstname" label="ชื่อ"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12">
-            <v-text-field base-color="sub-text" v-model="userForm.employeeLastname" label="นามสกุล" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-text-field base-color="sub-text" v-model="userForm.employeeLastname" label="นามสกุล"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12">
-            <v-text-field base-color="sub-text" v-model="userForm.employeePhone" label="เบอร์โทรศัพท์" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-text-field base-color="sub-text" v-model="userForm.employeePhone" label="เบอร์โทรศัพท์"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12">
-            <v-text-field base-color="sub-text" v-model="userForm.employeeEmail" label="อีเมล" type="email" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-text-field base-color="sub-text" v-model="userForm.employeeEmail" label="อีเมล" type="email"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-select v-model="userForm.employeeGender" :items="genderOptions" item-title="name" item-value="value" :readonly="props.modalAction == 'view'?true:false"
-              variant="outlined" label="เพศ" base-color="sub-text" />
+            <v-select v-model="userForm.employeeGender" :items="genderOptions" item-title="name" item-value="value"
+              :readonly="props.modalAction == 'view' ? true : false" variant="outlined" label="เพศ"
+              base-color="sub-text" />
           </v-col>
 
           <v-col cols="12" md="8">
-            <v-select v-model="userForm.roles" :items="roleOptions" item-title="name" item-value="value" variant="outlined"
-              multiple label="บทบาท" base-color="sub-text" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-select v-model="userForm.roles" :items="roleOptions" item-title="name" item-value="value"
+              variant="outlined" multiple label="บทบาท" base-color="sub-text"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12">
-            <v-select v-model="userForm.positionId" :items="positionOptions" item-title="name" item-value="value" variant="outlined"
-              label="ตำแหน่ง" base-color="sub-text" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-select v-model="userForm.positionId" :items="positionOptions" item-title="name" item-value="value"
+              variant="outlined" label="ตำแหน่ง" base-color="sub-text"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
 
           <v-col cols="12">
-            <v-select v-model="userForm.reportTo" :items="managersOptions" item-title="name" item-value="value" variant="outlined"
-              label="ผู้จัดการ" base-color="sub-text" :readonly="props.modalAction == 'view'?true:false"/>
+            <v-select v-model="userForm.reportTo" :items="managersOptions" item-title="name" item-value="value"
+              variant="outlined" label="ผู้จัดการ" base-color="sub-text"
+              :readonly="props.modalAction == 'view' ? true : false" />
           </v-col>
         </v-row>
       </template>
@@ -186,8 +207,8 @@ watch(isModalOpen, (open) => {
       <v-divider />
 
       <v-card-actions class="bg-surface-light">
-        <v-btn @click="submitForm" text="ยืนยัน" />
-        <v-btn @click="onDialogModelUpdate(false)" text="ยกเลิก" variant="plain" />
+        <v-btn v-if="props.modalAction != 'view'" @click="submitForm" text="ยืนยัน" />
+        <v-btn @click="onDialogModelUpdate(false)" :text="props.modalAction == 'view' ? 'ปิด' : 'ยกเลิก'" variant="plain" />
       </v-card-actions>
     </v-card>
   </v-dialog>

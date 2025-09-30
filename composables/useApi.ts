@@ -31,9 +31,15 @@ export const useApi = () => {
 
   const getAllPosition = () => request<any>(`/position`, { method: 'GET', cache: 'no-cache' })
 
-  const getAllManager = () => request<any>('/employee/role/manager', { method: 'GET', cache: 'no-cache' })
+  const getAllManager = () => request<any>('/manager', { method: 'GET', cache: 'no-cache' })
+
+  const getOtherManager = (exceptId: string) => request<any>(`/manager/other?exceptId=${exceptId}`, { method: 'GET', cache: 'no-cache' })
 
   const insertUser = (user: any) => request<any>('/user', { method: 'POST', body: user, cache: 'no-cache'})
 
-  return { getAllEmployeeDTO, getEmployeeById, getUserRolesByEmployeeId, getAllPosition, getAllManager, insertUser }
+  const editUser = (user: any) => request<any>('/user', { method: 'PUT', body: user, cache: 'no-cache'})
+
+  const deleteUser = (employeeId: string | null) => request<any>(`/user/${employeeId}`, { method: 'DELETE', cache: 'no-cache' })
+
+  return { getAllEmployeeDTO, getEmployeeById, getUserRolesByEmployeeId, getAllPosition, getAllManager, getOtherManager, insertUser, editUser, deleteUser }
 }
