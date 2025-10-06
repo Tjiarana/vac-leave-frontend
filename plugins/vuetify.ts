@@ -31,9 +31,6 @@ export default defineNuxtPlugin((nuxtApp ) => {
                 mdi,
             },
         },
-        components: {
-            VCalendar,
-        }
     })
 
     nuxtApp.vueApp.use(vuetify)
