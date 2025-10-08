@@ -39,14 +39,8 @@ const headers = ref<any[]>([
 </script>
 <template>
   <VContainer fluid class="pa-0 bg-surface fill-height d-flex flex-column">
-    <v-row no-gutters justify="center" align="center" class="bg-secondary w-100 flex-grow-0">
-      <v-col class="d-flex justify-center">
-        <h1 class="font-weight-bold text-white" :class="lgAndDown ? 'py-6 text-h5' : xlAndUp ? 'py-8' : 'py-0'">จัดการพนักงาน
-        </h1>
-      </v-col>
-    </v-row>
     <v-row no-gutters justify="center" align="center" class="w-100 px-16" :class="lgAndDown ? 'py-8' : 'py-16'">
-      <v-col class="d-flex fill-height flex-grow-1">
+      <v-col class="d-flex h-100">
         <EmployeesTable @refetch-all-employee="fetchAllEmployee" :table-headers="headers" :employees="employees" />
       </v-col>
     </v-row>

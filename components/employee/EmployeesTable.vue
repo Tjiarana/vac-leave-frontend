@@ -25,14 +25,6 @@ const props = defineProps({
 
 const emit = defineEmits(['refetchAllEmployee'])
 
-const tableHeight = computed(() => {
-  if (smAndDown.value) return 350
-  if (md.value) return 300
-  if (lg.value) return 250
-  if (xl.value) return 450
-  if (xxl.value) return 350
-})
-
 const isModalOpen = ref<boolean>(false)
 const modalAction = ref<string>('view')
 const modalEmployeeId = ref<string | null>(null)
@@ -54,7 +46,7 @@ const openDeleteModal = (employeeId: string): void => {
 </script>
 
 <template>
-  <v-data-table :height="tableHeight" :headers="props.tableHeaders" items-per-page="10"
+  <v-data-table height="100" :headers="props.tableHeaders" items-per-page="10"
     :items-per-page-options="[5, 10, 20]" :items="props.employees" item-value="id" fixed-header
     :hover="props.employees.length <= 0 ? false : true" :hide-default-footer="props.employees.length <= 0"
     class="border rounded overflow-hidden">
