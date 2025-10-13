@@ -53,7 +53,7 @@ const openDeleteModal = (employeeId: string): void => {
     <template v-slot:top>
       <v-toolbar flat color="surface border-b">
         <v-toolbar-title class="text-secondary font-weight-bold" text="รายชื่อพนักงาน" />
-        <v-btn @click="openModal('add', null)" variant="flat" color="primary" class="me-3 text-white"
+        <v-btn @click="openModal('add', null)" variant="text" color="success" class="me-3"
           prepend-icon="mdi-account-plus" rounded="lg" text="เพิ่มพนักงาน" :ripple="false" />
       </v-toolbar>
     </template>
